@@ -84,9 +84,6 @@ export default {
       //st:"",
     };
   },
-  
-
-
 
   mounted() {
     axios
@@ -105,6 +102,17 @@ export default {
       });
   },
   methods: {
+    
+  async fetchData() {
+    try {
+      const response = await axios.get('https://data.covid19india.org/states_daily.json');
+      this.covidData = response.data.statewise;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  },
+
+
     getTotalConfirmed() {
       this.states_daily_list = this.originalJsonData["states_daily"];
       for (let st of this.states) {

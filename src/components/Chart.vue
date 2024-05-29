@@ -127,6 +127,14 @@ export default {
     }
   },
   methods: {
+    async fetchChartData() {
+    try {
+      const response = await axios.get('https://data.covid19india.org/states_daily.json');
+      this.chartData = response.data.cases_time_series;
+    } catch (error) {
+      console.error('Error fetching chart data:', error);
+    }
+  },
     forceRerender() {  //Re-renders the chart component
       this.componentKey += 1;
     },
