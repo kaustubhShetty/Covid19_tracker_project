@@ -1,27 +1,24 @@
 <template>
   <div>
-    <h1>State/UT:{{ this.stateNewName }}</h1>
+    <h1>State/UT: {{ stateAcronymToFullName[this.stateNewName] }}</h1>
     <line-chart :key="componentKey" v-if="loaded" :chartdata="chartdata" /> <!--creates a line chart-->
   </div>
 </template>
-
 
 <script>
 import axios from "axios";
 import LineChart from "./LineChart.vue";
 import { bus } from "../main";
-// import { Line } from 'vue-chartjs';
 
 export default {
   components: { LineChart },
   created() {
-    bus.$on("changeIt", (data) => { //Helps create a channel between the table and chart component
+    bus.$on("changeIt", (data) => {
       this.stateNewName = data;
+      this.fullStateName = this.stateAcronymToFullName[data];
       console.log(this.stateNewName);
       this.getConfirmedCasesforSpecificState();
       this.getRecoveredCasesforSpecificState();
-      console.log(this.confirmed_cases_list);
-      console.log(this.recovered_cases_list);
       this.chartdata = {
         type: "line",
         labels: this.dates,
@@ -39,16 +36,12 @@ export default {
         ],
       };
       this.forceRerender();
-      },
-//Helps create a channel between the form and chart component
-      bus.$on('UpdateNewDates',(data)=>{  //Updates Chart for New Range of Dates
-        this.fromDate=data[0];
-        this.toDate = data[1];
-        console.log(this.fromDate);
-        console.log(this.toDate);
-        console.log(this.stateNewName);
-        this.filteredResults();
-        this.chartdata = {
+    });
+    bus.$on('UpdateNewDates', (data) => {
+      this.fromDate = data[0];
+      this.toDate = data[1];
+      this.filteredResults();
+      this.chartdata = {
         type: "line",
         labels: this.filteredDatesList,
         datasets: [
@@ -65,36 +58,73 @@ export default {
         ],
       };
       this.forceRerender();
-      },)  
-    );
+    });
   },
   name: "Chart",
   data: () => ({
     loaded: false,
     componentKey: 0,
-    dates:[], // x axis array
+    dates: [],
     filteredDatesList: [],
     filteredConfirmedCasesList: [],
     filteredRecoveredCasesList: [],
-    t: "",
     stateNewName: "mh",
+    fullStateName: "Maharashtra",
     states_daily_list: [],
-    confirmed_cases_list: [], //confirmed array
-    recovered_cases_list: [], //recovered array
-    valuesList: [],
-    temp: [],
+    confirmed_cases_list: [],
+    recovered_cases_list: [],
     chartData: null,
-    fromDate:"",
-    toDate:"",
-    fromDateIndex:0,
-    toDateIndex:0,
+    fromDate: "",
+    toDate: "",
+    fromDateIndex: 0,
+    toDateIndex: 0,
+    stateAcronymToFullName: {
+      'an': 'Andaman and Nicobar Islands',
+      'ap': 'Andhra Pradesh',
+      'ar': 'Arunachal Pradesh',
+      'as': 'Assam',
+      'br': 'Bihar',
+      'ch': 'Chandigarh',
+      'ct': 'Chhattisgarh',
+      'dd': 'Daman and Diu',
+      'dl': 'Delhi',
+      'dn': 'Dadra and Nagar Haveli',
+      'ga': 'Goa',
+      'gj': 'Gujarat',
+      'hp': 'Himachal Pradesh',
+      'hr': 'Haryana',
+      'jh': 'Jharkhand',
+      'jk': 'Jammu and Kashmir',
+      'ka': 'Karnataka',
+      'kl': 'Kerala',
+      'la': 'Ladakh',
+      'ld': 'Lakshadweep',
+      'mh': 'Maharashtra',
+      'ml': 'Meghalaya',
+      'mn': 'Manipur',
+      'mp': 'Madhya Pradesh',
+      'mz': 'Mizoram',
+      'nl': 'Nagaland',
+      'or': 'Odisha (formerly known as Orissa)',
+      'pb': 'Punjab',
+      'py': 'Puducherry (formerly known as Pondicherry)',
+      'rj': 'Rajasthan',
+      'sk': 'Sikkim',
+      'tg': 'Telangana',
+      'tn': 'Tamil Nadu',
+      'tr': 'Tripura',
+      'tt': 'All India Total',
+      'un': 'Unknown',
+      'up': 'Uttar Pradesh',
+      'ut': 'Uttarakhand',
+      'wb': 'West Bengal',
+    },
   }),
   mounted() {
-    //async
     this.loaded = false;
     try {
       axios
-        .get("https://data.covid19india.org/states_daily.json") //api
+        .get("https://data.covid19india.org/states_daily.json")
         .then((response) => {
           this.originalJsonData = response.data;
           this.getDateYMD();
@@ -116,10 +146,9 @@ export default {
               },
             ],
           };
-          this.loaded = true; // handle success
+          this.loaded = true;
         })
         .catch((error) => {
-          // handle error
           console.log(error);
         });
     } catch (e) {
@@ -128,72 +157,61 @@ export default {
   },
   methods: {
     async fetchChartData() {
-    try {
-      const response = await axios.get('https://data.covid19india.org/states_daily.json');
-      this.chartData = response.data.cases_time_series;
-    } catch (error) {
-      console.error('Error fetching chart data:', error);
-    }
-  },
-    forceRerender() {  //Re-renders the chart component
+      try {
+        const response = await axios.get('https://data.covid19india.org/states_daily.json');
+        this.chartData = response.data.cases_time_series;
+      } catch (error) {
+        console.error('Error fetching chart data:', error);
+      }
+    },
+    forceRerender() {
       this.componentKey += 1;
     },
-
-    filteredResults(){
-      for(let i=0;i<this.dates.length;i++){ //lets me get the index of from date
-        if(this.dates[i]===this.fromDate){
-          this.fromDateIndex=i;
-          console.log(this.fromDateIndex);
+    filteredResults() {
+      for (let i = 0; i < this.dates.length; i++) {
+        if (this.dates[i] === this.fromDate) {
+          this.fromDateIndex = i;
         }
       }
-      for(let i=0;i<this.dates.length;i++){ //lets me get the index of to date
-        if(this.dates[i]===this.toDate){
-          this.toDateIndex=i;
-          console.log(this.toDateIndex);
+      for (let i = 0; i < this.dates.length; i++) {
+        if (this.dates[i] === this.toDate) {
+          this.toDateIndex = i;
         }
       }
-      this.filteredDatesList= []; //Re-initializing to make the lists empty again
-      this.filteredConfirmedCasesList= [];
-      this.filteredRecoveredCasesList= [];
-      for(let i= this.fromDateIndex;i<=this.toDateIndex;i++){ //Add filtered dates to filtered lists
-        this.filteredDatesList.push(this.dates[i]); 
+      this.filteredDatesList = [];
+      this.filteredConfirmedCasesList = [];
+      this.filteredRecoveredCasesList = [];
+      for (let i = this.fromDateIndex; i <= this.toDateIndex; i++) {
+        this.filteredDatesList.push(this.dates[i]);
         this.filteredConfirmedCasesList.push(this.confirmed_cases_list[i]);
         this.filteredRecoveredCasesList.push(this.recovered_cases_list[i]);
       }
-      console.log(this.filteredDatesList);
     },
-
-    getDateYMD(){
+    getDateYMD() {
       this.states_daily_list = this.originalJsonData["states_daily"];
       for (let i = 0; i < this.states_daily_list.length; i = i + 3) {
         this.dates.push(this.states_daily_list[i]["dateymd"]);
       }
-      console.log(this.dates);
     },
     getConfirmedCasesforSpecificState() {
       this.confirmed_cases_list = [];
-      console.log("ConfirmedCasesFunctionRan");
       for (let i = 0; i < this.states_daily_list.length; i = i + 3) {
         this.confirmed_cases_list.push(
           parseInt(this.states_daily_list[i][this.stateNewName])
         );
       }
-      
     },
     getRecoveredCasesforSpecificState() {
       this.recovered_cases_list = [];
-      console.log("RecoveredCasesFunctionRan");
       for (let i = 1; i < this.states_daily_list.length; i = i + 3) {
         this.recovered_cases_list.push(
           parseInt(this.states_daily_list[i][this.stateNewName])
         );
       }
     },
-    
   },
 };
 </script>
-
 
 <style>
 #app {
@@ -205,3 +223,10 @@ export default {
   margin-top: 60px;
 }
 </style>
+
+
+
+
+
+
+
