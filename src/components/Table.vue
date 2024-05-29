@@ -87,7 +87,7 @@ export default {
 
   mounted() {
     axios
-      .get("/api/states_daily.json")
+      .get("https://data.covid19india.org/states_daily.json") //api
       .then((response) => {
         this.originalJsonData = response.data;
         //this.getStates();
