@@ -5,6 +5,8 @@ import App from './App.vue'
 //import Chart from 'chart.js'
 
 //import store from "./store";
+import './assets/tailwind.css';
+
 import store from './store'
 export const bus = new Vue();  //Event Bus instance
 

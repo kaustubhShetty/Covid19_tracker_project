@@ -1,6 +1,6 @@
-<template>
-  <div>
-    <h1>State/UT: {{ stateAcronymToFullName[this.stateNewName] }}</h1>
+<template >
+  <div class="caard">
+    <h1>State / UT: {{ stateAcronymToFullName[this.stateNewName] }}</h1>
     <line-chart :key="componentKey" v-if="loaded" :chartdata="chartdata" /> <!--creates a line chart-->
   </div>
 </template>
@@ -222,11 +222,6 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+
 </style>
-
-
-
-
-
-
-

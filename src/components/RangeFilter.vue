@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="caaard">
     <br />
     <div
       class="container-fluid pt-4"
@@ -9,14 +9,14 @@
       <div class="card">
         <div class="card-body">
           <label for="from">From :</label> -->
-          <input type="date" id="from" name="from" min="2020-03-14" /><br />
+          <input type="date" id="from" name="from" min="2020-03-14" max="2021-08-04"/><br />
         </div>
       </div>
       <br />
       <div class="card">
         <div class="card-body">
           <label for="to">To :</label> -->
-          <input type="date" id="to" name="to" /><br>
+          <input type="date" id="to" name="to" min="2020-03-15" max="2021-08-05"/><br>
         </div>
       </div>
       <br />
@@ -32,7 +32,7 @@
 import { bus } from "../main";
 
 export default {
-  name: "Form",
+  name: "RangeFilter",
   data() {
     return {
       fromVar: "2020-03-20", //20-Mar-20
@@ -53,4 +53,16 @@ export default {
 
 
 <style>
+.color{
+  color: #dc7e7e;
+}
+.caaard {
+  background-color: #ffffff; /* White background for cards */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+  padding: 10px; /* Padding inside the card */
+  margin-top: 15px; 
+  margin-bottom: 15px; 
+
+}
 </style>

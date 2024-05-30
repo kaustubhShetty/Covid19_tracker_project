@@ -9,7 +9,7 @@
       <div class="col-md-6">
         <!--  second column here -->
         <Chart/>
-        <Form/>
+        <RangeFilter/>
       </div>
     </div>
   </div>
@@ -19,9 +19,8 @@
 import Navbar from "./components/Navbar.vue";
 import Table from "./components/Table.vue";
 import Chart from "./components/Chart.vue";
-import Form from "./components/Form.vue";
-
-
+import RangeFilter from "./components/RangeFilter.vue";
+import './assets/tailwind.css';
 
 export default {
   name: "App",
@@ -29,17 +28,26 @@ export default {
     Navbar,
     Table,
     Chart,
-    Form,
+    RangeFilter,
   },
 };
-
 </script>
-
 
 <style>
 body{ 
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
+  background-color: #d1d3d4; /* Light grey background */
+  /* #e6f3f2 */
+
 }
+h1, h2, h3, h4, h5, h6 {
+  color: #333; /* Darker color for headings */
+}
+.table th, .table td {
+  font-size: 16px; /* Consistent font size */
+}
+
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
