@@ -196,7 +196,7 @@ export default {
   background-color: #f8f9fa; /* Change background color on hover */
   cursor: pointer;
   font-weight: 700;
-  font-size: 19px;
+  font-size: 20px;
 }
 
 .caard {
