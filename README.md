@@ -1,7 +1,7 @@
 # covid19_tracker
 ## Deployed on
 
-https://evening-anchorage-90798.herokuapp.com/
+https://kaustubhshetty.github.io/Covid19_tracker_project/
 
 ## Dataset link
 
