@@ -12,7 +12,7 @@
         </thead>
         <tbody>
           <tr v-bind:key="ele.state" v-for="ele in newJsonListOfDictionaries">
-            <td class="clickable-cell border px-4 py-2 text-blue-600 hover:text-blue-800" @click="getStateName(ele.state)">{{ stateAcronymToFullName[ele.state] }}</td>
+            <td class="clickable-cell border px-4 py-2 text-blue-600 hover:text-blue-800" @click="getStateName(ele.state)"> {{ stateAcronymToFullName[ele.state] }} </td>
             <td class="border px-4 py-2">{{ ele.confirmed }}</td>
             <td class="border px-4 py-2">{{ ele.recovered }}</td>
           </tr>
@@ -209,10 +209,8 @@ export default {
 
 .table-rounded {
   border-radius: 15px; /* Rounded corners for the table */
-  overflow: hidden; /* Ensure the rounded corners are applied to the table content */
+  overflow: hidden; /* This is to ensure the rounded corners are applied to the table content */
 }
-
-
 
 .table-rounded tbody tr:last-child td:first-child {
   border-bottom-left-radius: 8px; /* Bottom-left rounded corner */

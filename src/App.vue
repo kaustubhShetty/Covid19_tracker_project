@@ -1,34 +1,21 @@
 <template id='background'>
   <div>
-    <Navbar />
-    <div class="modal-body row">
-      <div class="col-md-6">
-        <!--  first column here -->
-        <Table/>
-      </div>
-      <div class="col-md-6">
-        <!--  second column here -->
-        <Chart/>
-        <RangeFilter/>
-      </div>
-    </div>
+    <NavigationBar />
+    <router-view/>
+
   </div>
 </template>
 
 <script>
-import Navbar from "./components/Navbar.vue";
-import Table from "./components/Table.vue";
-import Chart from "./components/Chart.vue";
-import RangeFilter from "./components/RangeFilter.vue";
+import NavigationBar from "./components/NavigationBar.vue";
+
 import './assets/tailwind.css';
 
 export default {
   name: "App",
   components: {
-    Navbar,
-    Table,
-    Chart,
-    RangeFilter,
+    NavigationBar,
+    
   },
 };
 </script>
